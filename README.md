@@ -1,1 +1,1 @@
-# automation-app
+# Automation app
