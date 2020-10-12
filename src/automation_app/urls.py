@@ -26,4 +26,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('api/v1/actions/', include('action.api.urls', namespace="actions")),
+    path('api/v1/reactions/', include('reaction.api.urls', namespace="reactions")),
 ]
