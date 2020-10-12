@@ -27,4 +27,5 @@ urlpatterns = [
 
     path('api/v1/actions/', include('action.api.urls', namespace="actions")),
     path('api/v1/reactions/', include('reaction.api.urls', namespace="reactions")),
+    path('api/v1/tasks/', include('task.api.urls', namespace="tasks")),
 ]
