@@ -5,6 +5,7 @@ class Reaction(models.Model):
     subject = models.CharField(
         verbose_name='subject',
         max_length=255,
+        unique=True
     )
     script = models.FileField(
         upload_to='scripts'

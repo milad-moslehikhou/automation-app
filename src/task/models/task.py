@@ -15,6 +15,7 @@ class Task(models.Model):
     subject = models.CharField(
         verbose_name='subject',
         max_length=255,
+        unique=True
     )
     enable = models.BooleanField(
         verbose_name='enable',

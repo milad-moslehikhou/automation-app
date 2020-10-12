@@ -5,6 +5,7 @@ class Action(models.Model):
     subject = models.CharField(
         verbose_name='subject',
         max_length=255,
+        unique=True
     )
     match_case = models.CharField(
         verbose_name='match case',
