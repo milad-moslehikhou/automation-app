@@ -8,10 +8,10 @@ class Execution(models.Model):
         on_delete=models.PROTECT
     )
     start_at = models.DateTimeField(
-        verbose_name='start'
+        verbose_name='execution start timestamp'
     )
     end_at = models.DateTimeField(
-        verbose_name='end'
+        verbose_name='execution end timestamp'
     )
     stdout = models.TextField(
         verbose_name='reaction script stdout',
