@@ -7,8 +7,8 @@ class Reaction(models.Model):
         max_length=255,
         unique=True
     )
-    script = models.FileField(
-        upload_to='scripts'
+    script = models.TextField(
+        verbose_name='script',
     )
     description = models.CharField(
         verbose_name='description',

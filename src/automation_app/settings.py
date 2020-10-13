@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'action',
     'reaction',
     'task',
-    'execution'
+    'execution',
+    'collector',
 ]
 
 MIDDLEWARE = [

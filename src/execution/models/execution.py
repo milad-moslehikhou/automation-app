@@ -2,6 +2,16 @@ from django.db import models
 
 
 class Execution(models.Model):
+
+    STATUS_OK = 'OK'
+    STATUS_ERROR = 'ERROR'
+    STATUS_EXCEPTION = 'EXCEPTION'
+    STATUS_CHOICES = [
+        (STATUS_OK, 'ok'),
+        (STATUS_ERROR, 'error'),
+        (STATUS_EXCEPTION, 'exception')
+    ]
+
     task = models.ForeignKey(
         "task.Task",
         verbose_name="task",
@@ -21,3 +31,9 @@ class Execution(models.Model):
         verbose_name='reaction script stderr',
         null=True
     )
+    status = models.CharField(
+        verbose_name='status',
+        choices=STATUS_CHOICES,
+        max_length=9,
+    )
+
