@@ -17,3 +17,6 @@ class Action(models.Model):
         null=True,
         blank=True
     )
+
+    def __str__(self):
+        return '{}_{}'.format(self.id, self.subject)

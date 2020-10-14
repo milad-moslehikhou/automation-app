@@ -37,3 +37,6 @@ class Execution(models.Model):
         max_length=9,
     )
 
+    def __str__(self):
+        return "{}_{}".format(self.id, self.task.subject)
+

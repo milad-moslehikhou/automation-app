@@ -22,3 +22,6 @@ class Task(models.Model):
         default=True
     )
 
+    def __str__(self):
+        return '{}_{}'.format(self.id, self.subject)
+
