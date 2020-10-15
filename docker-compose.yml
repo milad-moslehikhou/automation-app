@@ -1,0 +1,92 @@
+version: '3.7'
+services:
+    app:
+        build: 
+            context: .
+            dockerfile: Dockerfile-app
+        image: automation_app:v1.0
+        depends_on:
+            - mysql 
+            - redis
+        command: startgunicorn
+        environment:
+            - "DJANGO_ADMIN_USER=admin"
+            - "DJANGO_ADMIN_PASS=admin"
+            - "DJANGO_SECRET_KEY=-e^)23vce!)!)gl2xo##3mebev!%27i%2nl#pml1qh2(@t(u(u"
+            - "DB_HOST=mysql"
+            - "DB_PORT=3306"
+            - "DB_NAME=automation_db"
+            - "DB_USER=admin"
+            - "DB_PASS=admin"
+            - "REDIS_HOST=redis"
+        volumes:
+            - type: volume
+              source: app_volume
+              target: /usr/src/app/static/
+        networks:
+            - backend_net
+            - frontend_net
+
+    celery:
+        image: automation_app:v1.0
+        depends_on:
+            - app
+        command: startcelery
+        environment:
+            - "DJANGO_SECRET_KEY=-e^)23vce!)!)gl2xo##3mebev!%27i%2nl#pml1qh2(@t(u(u"
+            - "DB_HOST=mysql"
+            - "DB_PORT=3306"
+            - "DB_NAME=automation_db"
+            - "DB_USER=admin"
+            - "DB_PASS=admin"
+            - "REDIS_HOST=redis"
+        networks:
+            - backend_net
+
+    mysql:
+        image: mysql:8.0.19
+        environment:
+            - "MYSQL_ROOT_PASSWORD=root"
+            - "MYSQL_DATABASE=automation_db"
+            - "MYSQL_USER=admin"
+            - "MYSQL_PASSWORD=admin"
+        cap_add:
+            - SYS_NICE
+        volumes:
+            - type: volume
+              source: mysql_volume
+              target: /var/lib/mysql
+        networks:
+            - backend_net
+
+    redis:
+        image: redis:6.0.8-alpine
+        networks:
+            - backend_net
+
+    nginx:
+        build: 
+            context: .
+            dockerfile: Dockerfile-nginx
+        image: nginx:app-custom
+        depends_on:
+            - app
+        volumes:
+            - type: volume
+              source: app_volume
+              target: /opt/app/static/
+        ports:
+            - target: 80
+              published: 80
+        networks:
+            - frontend_net
+   
+
+
+volumes:
+    app_volume:
+    mysql_volume:
+
+networks:
+    backend_net:
+    frontend_net:

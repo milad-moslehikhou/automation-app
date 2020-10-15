@@ -20,12 +20,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-e^)23vce!)!)gl2xo##3mebev!%27i%2nl#pml1qh2(@t(u(u'
+
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(os.environ.get("DJANGO_DEBUG", default=0))
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOW_HOSTS", default=['127.0.0.1', 'localhost'])
 
 
 # Application definition
@@ -61,7 +62,7 @@ ROOT_URLCONF = 'automation_app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'web/templates')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -82,8 +83,12 @@ WSGI_APPLICATION = 'automation_app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get("DB_NAME", default='automation_db'),
+        'USER': os.environ.get("DB_USER", default='admin'),
+        'PASSWORD': os.environ.get("DB_PASS", default='admin'),
+        'HOST': os.environ.get("DB_HOST", default='localhost'),
+        'PORT': os.environ.get("DB_PORT", default='3306'),
     }
 }
 
@@ -125,6 +130,3 @@ USE_TZ = True
 
 STATIC_ROOT = './static'
 STATIC_URL = '/static/'
-
-MEDIA_ROOT = './media'
-MEDIA_URL = '/media/'

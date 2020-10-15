@@ -14,8 +14,6 @@ from execution.models.execution import Execution
 @app.task
 def process_data(data):
     actions = Action.objects.all()
-    import time
-    time.sleep(30)
     for action in actions:
         if data['data'] == action.match_case:
             task = Task.objects.get(action_id__exact=action.id)
